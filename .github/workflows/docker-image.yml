@@ -44,8 +44,8 @@ jobs:
         
     - name: Push Docker Image
       run: |
-        docker push carlosvilca/docker:lastest .
-        docker push carlosvilca/docker:$NEW_VERSION .
+        docker push carlosvilca/docker:lastest
+        docker push carlosvilca/docker:$NEW_VERSION
 
         
         
