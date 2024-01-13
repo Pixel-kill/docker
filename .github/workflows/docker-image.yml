@@ -43,6 +43,8 @@ jobs:
         docker build -t carlosvilca/docker:$NEW_VERSION .
         
     - name: Push Docker Image
+      env:
+          NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         docker push carlosvilca/docker:lastest
         docker push carlosvilca/docker:$NEW_VERSION
