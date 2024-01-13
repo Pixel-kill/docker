@@ -18,6 +18,14 @@ jobs:
       with: 
         fetch-depth: 0
 
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v4.0.3
+      with:
+        major_pattern: "feature:"
+        minor_pattern: "bugfix:"
+        format: "${major}.${minor}.${patch}-prerelease${increment}"
+      id: version
+
     - name: Docker login
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
@@ -28,15 +36,16 @@ jobs:
         echo "final"
 
     - name: Build Docker Image
+      env:
+          NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker build -t carlosvilca/docker:0.0.2 .
+        docker build -t carlosvilca/docker:lastest .
+        docker build -t carlosvilca/docker:$NEW_VERSION .
         
     - name: Push Docker Image
       run: |
-        docker push carlosvilca/docker:0.0.2
-
-
-
+        docker push carlosvilca/docker:lastest .
+        docker push carlosvilca/docker:$NEW_VERSION .
 
         
         
